@@ -1,5 +1,5 @@
 import random
-from generate_problem import generate_problem
+from base.generate_problem import loss_matrix
 
 values_map = {
     "A": 0,
@@ -12,35 +12,79 @@ values_map = {
     "H": 7
 }
 
+# create an individual
 def create_individual():
-    solution = []
-    letters = ["A", "C", "D", "E", "G", "F"]
-    while len(letters) > 0:
-        choice = random.choice(letters)
-        # if solution[-1]=="F" and choice=="B":
-        #     letters.remove("C")
-        # if choice == "A": ask professor if it's after of right after
-        #   letters += ["F"]
+    individual = []
 
-        if len(solution) > 0 and solution[-1] == "A" and choice == "F":
+    # available rooms
+    # H is not here, because has it is only the last, we will append it at the end
+    rooms = ["A", "B", "C", "D", "E", "F", "G"]
+
+    # while exist rooms that were not visit, do:
+    while rooms:
+
+        # choose one room randomly to start
+        room = random.choice(rooms)
+
+        # append the first room (no restrictions)
+        if len(individual) == 0:
+            individual.append(room)
+            rooms.remove(room)
+
+        # if F is the room visited before the one we want to visit next, that room cannot be A
+        elif individual[-1] == 'F' and room == 'A':
+            if (len(rooms) == 1):
+                individual = []
+                rooms = ["A", "B", "C", "D", "E", "F", "G"]
             continue
 
-        solution.append(choice)
-        letters.remove(choice)
+        else:
+            # add the next room
+            individual.append(room)
+            # delete the choosen room for the list of available rooms
+            rooms.remove(room)
 
-        if solution[-1] == "F":
-            solution.append("B")
+    individual += ["H"]
+    return individual
 
-    solution += ["H"]
-    return solution
+# evaluate the fitness of an individual
+def evaluate_individual(individual):
 
+    fitness = 0
+    C_optional = False
+    C_index = 0
 
-loss_matrix = generate_problem()  # pass this as argument to genetic algorithm?
+    # iterate by order all rooms of the individual(path)
+    for i in range(len(individual)-1): # -1 because the last one does not have next room
 
+        # room at index i
+        current_room = individual[i]
+        # room right after
+        to_room = individual[i + 1]
 
-def individual_evaluation_min(individual):
-    indexes = [values_map[i] for i in individual]
-    total_loss = 0
-    for i in range(len(indexes) - 1):
-        total_loss += loss_matrix[indexes[i]][indexes[i + 1]]  # question: loss of focus is cumulative and then subtracts to total or needs to be updated after every room passed? important because it's in %
-    return total_loss
+        # loss in focus from room at index i to room at index i+1
+        loss_in_focus = loss_matrix[values_map[current_room]][values_map[to_room]]
+
+        # total fitness (sum of the loss of focus from one room to the next)
+        fitness += loss_in_focus
+
+        if current_room == 'F' and to_room == 'B':
+            C_optional = True
+
+        # keep the index of C, to forward remove it from the final solution if C is optional
+        if current_room == 'C':
+            C_index = i
+
+    if C_optional:
+
+        # if C is not in the first position of the element array, it does have a from room
+        # and we should remove the fitness from that 'from room' to C
+        if C_index != 0:
+            from_room = individual[C_index - 1]
+            fitness -= loss_matrix[values_map[from_room]][values_map['C']]
+
+        # always remove the fitness of the room next to C
+        to_room = individual[C_index + 1]
+        fitness -= loss_matrix[values_map['C']][values_map[to_room]]
+
+    return fitness

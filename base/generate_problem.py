@@ -10,17 +10,39 @@ encoder = {"A": 0,
            "G": 6,
            "H": 7}
 
-
+# input data
 def generate_problem(low=0, high=20, round_to=2):
-    array = np.array(
-        [[round(random.uniform(low, high), round_to) for _ in range(8)] for _ in range(8)])  # Generates initial array
-    np.fill_diagonal(array, 0)  # Fill main diagonal with 0s
-    max_loss = np.amax(array)  # Calculates max loss of focus
 
-    if array[encoder["A"]][encoder["C"]] < max_loss:  # Condition: if A to C loss is smaller than max loss:
-        array[encoder["A"]][encoder["C"]] = round(random.uniform(max_loss * 1.04, max_loss * 1.2),
-                                                  round_to)  # Generate new value for A to C with 4% to 20% increase from previous max loss of focus
+    '''
 
-    array = np.tril(array) + np.triu(array.T, 1)
+    description of what the function does
 
-    return array  # Outputs numpy array
+    :param low: the lower number for loss of focus
+    :param high: the higher number for loss of focus
+    :param round_to: decimal cases to leave
+    :return: matrix of the loss of focus for going from room to room
+
+    '''
+
+    # Generates initial array
+    loss_matrix = np.array(
+        [[round(random.uniform(low, high), round_to) for _ in range(8)] for _ in range(8)])
+
+    # Fill main diagonal with 0's
+    np.fill_diagonal(loss_matrix, 0)
+
+    # Calculates max loss of focus
+    max_loss = np.amax(loss_matrix)
+
+
+    # Condition: from A to C -> loss(A,C) = max_loss*1.04 (at least)
+    # we choose 20% as the maximum increase of loss for it does not reach too large values
+    loss_matrix[encoder['A']][encoder['C']] = round(random.uniform(max_loss * 1.04, max_loss * 1.2), round_to) # ask professor about the high value
+
+    # set the lower triangle equals to the transpose of the upper triangle
+    array = np.triu(loss_matrix) + np.tril(loss_matrix.T, -1)
+
+    # Outputs numpy array
+    return loss_matrix
+
+loss_matrix = generate_problem()
