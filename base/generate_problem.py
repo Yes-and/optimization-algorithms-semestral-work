@@ -10,9 +10,9 @@ encoder = {"A": 0,
            "G": 6,
            "H": 7}
 
+
 # input data
 def generate_problem(low=0, high=20, round_to=2):
-
     '''
 
     description of what the function does
@@ -34,15 +34,13 @@ def generate_problem(low=0, high=20, round_to=2):
     # Calculates max loss of focus
     max_loss = np.amax(loss_matrix)
 
-
     # Condition: from A to C -> loss(A,C) = max_loss*1.04 (at least)
     # we choose 20% as the maximum increase of loss for it does not reach too large values
-    loss_matrix[encoder['A']][encoder['C']] = round(random.uniform(max_loss * 1.04, max_loss * 1.2), round_to) # ask professor about the high value
+    loss_matrix[encoder['A']][encoder['C']] = round(random.uniform(max_loss * 1.04, max_loss * 1.2),
+                                                    round_to)  # ask professor about the high value
 
     # set the lower triangle equals to the transpose of the upper triangle
-    array = np.triu(loss_matrix) + np.tril(loss_matrix.T, -1)
+    loss_matrix = np.triu(loss_matrix) + np.tril(loss_matrix.T, -1)
 
     # Outputs numpy array
     return loss_matrix
-
-loss_matrix = generate_problem()
