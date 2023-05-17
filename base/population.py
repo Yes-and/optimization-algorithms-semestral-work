@@ -1,10 +1,12 @@
 from base.individual import *
 
-def create_population_kp(population_size):
+# create a population
+def create_population(population_size):
 
     return [create_individual() for _ in range(population_size)]
 
-def evaluate_population_min(population):
+# evaluate the population
+def evaluate_population(population):
 
-    return [individual_evaluation_min(ind) for ind in population]
+    return [evaluate_individual(individual) for individual in population]
 
