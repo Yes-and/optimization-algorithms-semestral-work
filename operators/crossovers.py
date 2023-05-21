@@ -44,6 +44,40 @@ def cycle_crossover(p1, p2):
 
     return o1, o2
 
+def partially_mapped_crossover(p1, p2):
+    # we keep some values as they are
+    # and find the cycle for the rest of the values
+    crossover_index = 3
+    how_many = 4
+
+    s1 = [p1[i] for i in range(crossover_index, crossover_index+how_many)]
+    s2 = [p2[i] for i in range(crossover_index, crossover_index+how_many)]
+    # print(s1, s2)
+
+    u1 = [val for val in p2 if val not in s2]
+    u2 = [val for val in p1 if val not in s1]
+
+    un = [u1, u2]
+    sn = [s1, s2]
+    pn = [p1, p2]
+
+    for i in range(len(u1)):
+        for j in range(2):
+            curr = un[j][i]
+            while True:
+                if curr in sn[j]:
+                    index = pn[j].index(curr)
+                    curr = pn[1-j][index]
+                else:
+                    un[j][i] = curr
+                    break
+
+    o1 = u1[:crossover_index] + s1 + u1[crossover_index:]
+    o2 = u2[:crossover_index] + s2 + u2[crossover_index:]
+
+    return o1, o2
+
+
 def different_beginning_crossover(p1, p2):
     # only changes the starting part
     # because it can have a major impact
@@ -63,6 +97,6 @@ def different_beginning_crossover(p1, p2):
     return o1, o2
 
 p1, p2 = ["A", "B", "D", "C", "E", "F", "G", "H"], ["G", "C", "E", "D", "B", "A", "F", "H"]
-o1, o2 = cycle_crossover(p1, p2)
+o1, o2 = partially_mapped_crossover(p1, p2)
 print(p1, p2)
 print(o1, o2)
