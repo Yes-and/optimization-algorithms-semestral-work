@@ -3,9 +3,10 @@ import random
 from copy import deepcopy
 import numpy as np
 
+
 def GA(create_population,
+       loss_matrix,
        evaluate_population,
-       maximization,
        gens,
        pop_size,
        selector,
@@ -17,13 +18,12 @@ def GA(create_population,
        verbose,
        log,
        path):
-
-    if log and path == None:
+    if log and path is None:
         raise Exception('If log is True then a valid path should be provided')
 
     pop = create_population(population_size=pop_size)
 
-    fit_pop = evaluate_population(pop)
+    fit_pop = evaluate_population(pop, loss_matrix)
 
     for it in range(gens):
 
@@ -43,31 +43,19 @@ def GA(create_population,
             off_pop.extend([o1, o2])
 
         if elitism:
-            if maximization:
-                off_pop[-1] = pop[np.argmax(fit_pop)]
-            else:
-                off_pop[-1] = pop[np.argmin(fit_pop)]
+            off_pop[-1] = pop[np.argmin(fit_pop)]
 
         pop = off_pop
 
-        fit_pop = evaluate_population(pop)
+        fit_pop = evaluate_population(pop, loss_matrix)
 
         if verbose:
-            if maximization:
-                print(f'     {it}       |       {max(fit_pop)}      ')
-                print('-' * 32)
-            else:
-                print(f'     {it}       |       {min(fit_pop)}      ')
-                print('-' * 32)
+            print(f'     {it}       |       {min(fit_pop)}      ')
+            print('-' * 32)
 
         if log:
-            if maximization:
-                with open(path, 'a', newline='') as file:
-                    writer = csv.writer(file)
-                    writer.writerow([it, max(fit_pop)])
-            else:
-                with open(path, 'a', newline='') as file:
-                    writer = csv.writer(file)
-                    writer.writerow([it, min(fit_pop)])
+            with open(path, 'a', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerow([it, min(fit_pop)])
 
     return pop, fit_pop
