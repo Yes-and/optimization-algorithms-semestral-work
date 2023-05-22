@@ -92,14 +92,7 @@ def fix_individual(individual):
 
 
 def check_validity(individual):
-    c_present = len(individual) == 8
-
     for i in range(len(individual) - 1):
-        if not c_present:
-            if individual[i] == "F" and individual[i + 1] != "B":
-                return False
-        else:
-            if individual[i] == "F" and individual[i + 1] == "A":
-                return False
-
+        if individual[i] == "F" and individual[i + 1] == "A":
+            return False
     return True
