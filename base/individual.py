@@ -51,7 +51,7 @@ def create_individual():
 
 
 # evaluate the fitness of an individual
-def evaluate_individual(individual):
+def evaluate_individual(individual, loss_matrix):
     fitness = 0
     C_optional = False
     C_index = 0
@@ -113,7 +113,8 @@ def fix_individual(individual):
         fixed_individual.append(individual[i])
 
     if insert_A:
-        fixed_individual.insert(random.choice([i for i in range(len(individual)) if individual[i] not in ['A', 'H']]), "A")
+        fixed_individual.insert(random.choice([i for i in range(len(individual)) if individual[i] not in ['A', 'H']]),
+                                "A")
 
     return fixed_individual
 
