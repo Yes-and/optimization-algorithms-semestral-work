@@ -12,8 +12,6 @@ values_map = {
 }
 
 
-# TODO: randomly create individuals with room C or not
-
 # create an individual
 def create_individual():
     individual = []
@@ -50,47 +48,21 @@ def create_individual():
     return individual
 
 
-# evaluate the fitness of an individual
-def evaluate_individual(individual, loss_matrix):
+def evaluate_individual(individual, loss_matrix, recursion=False):
+    indexes = [values_map[i] for i in individual]
     fitness = 0
-    C_optional = False
-    C_index = 0
-
-    # iterate by order all rooms of the individual(path)
-    for i in range(len(individual) - 1):  # -1 because the last one does not have next room
-
-        # room at index i
-        current_room = individual[i]
-        # room right after
-        to_room = individual[i + 1]
-
-        # loss in focus from room at index i to room at index i+1
-        loss_in_focus = loss_matrix[values_map[current_room]][values_map[to_room]]
-
-        # total fitness (sum of the loss of focus from one room to the next)
-        fitness += loss_in_focus
-
-        if current_room == 'F' and to_room == 'B':
-            C_optional = True
-
-        # keep the index of C, to forward remove it from the final solution if C is optional
-        if current_room == 'C':
-            C_index = i
-
-    if C_optional:
-
-        # if C is not in the first position of the element array, it does have a from room
-        # and we should remove the fitness from that 'from room' to C
-        if C_index != 0:
-            from_room = individual[C_index - 1]
-            fitness -= loss_matrix[values_map[from_room]][values_map['C']]
-
-        # always remove the fitness of the room next to C
-        to_room = individual[C_index + 1]
-        fitness -= loss_matrix[values_map['C']][values_map[to_room]]
-
+    for i in range(len(indexes) - 1):
+        fitness += loss_matrix[indexes[i]][indexes[i + 1]]
+        if individual[i] == "F" and individual[i + 1] == "B" and not recursion:
+            test = individual[:]
+            fitness_with_c = evaluate_individual(test, loss_matrix, recursion=True)
+            test.remove("C")
+            fitness_without_c = evaluate_individual(test, loss_matrix, recursion=True)
+            return min(fitness_with_c, fitness_without_c)
     return fitness
 
+
+# I think its better to rerun or skip mutation/crossover if the individual isnt valid, and maybe remove the restrictions in the creation of the individual
 
 def fix_individual(individual):
     fixed_individual = []
