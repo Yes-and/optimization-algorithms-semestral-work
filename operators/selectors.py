@@ -9,9 +9,9 @@ def roulette_selection(population, fitnesses):
     return random.choices(population, weights=probabilities)[0]
 
 
-def tournament_selection(population, fitnesses, k):
+def tournament_selection(population, fitnesses):
     # Part 1:
-    p1_indexes = random.choices(range(len(population)), k=k)
+    p1_indexes = random.choices(range(len(population)), k=len(population)//2)
     p1_population = [population[i] for i in p1_indexes]
     p1_fitnesses = [fitnesses[i] for i in p1_indexes]
 

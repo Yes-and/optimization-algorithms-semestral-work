@@ -26,16 +26,10 @@ def create_individual():
         # choose one room randomly to start
         room = random.choice(rooms)
 
-        # append the first room (no restrictions)
-        if len(individual) == 0:
-            individual.append(room)
-            rooms.remove(room)
-
         # if F is the room visited before the one we want to visit next, that room cannot be A
-        elif individual[-1] == 'F' and room == 'A':
-            if len(rooms) == 1:
-                individual = []
-                rooms = ["A", "B", "C", "D", "E", "F", "G"]
+        if len(individual) != 0 and (individual[-1] == 'F' and room == 'A'):
+            individual = []
+            rooms = ["A", "B", "C", "D", "E", "F", "G"]
             continue
 
         else:
@@ -54,10 +48,10 @@ def evaluate_individual(individual, loss_matrix, recursion=False):
     for i in range(len(indexes) - 1):
         fitness += loss_matrix[indexes[i]][indexes[i + 1]]
         if individual[i] == "F" and individual[i + 1] == "B" and not recursion:
-            test = individual[:]
-            fitness_with_c = evaluate_individual(test, loss_matrix, recursion=True)
-            test.remove("C")
-            fitness_without_c = evaluate_individual(test, loss_matrix, recursion=True)
+            fitness_with_c = evaluate_individual(individual, loss_matrix, recursion=True)
+            ind_without_C = individual[:]
+            ind_without_C.remove("C")
+            fitness_without_c = evaluate_individual(ind_without_C, loss_matrix, recursion=True)
             return min(fitness_with_c, fitness_without_c)
     return fitness
 
@@ -67,27 +61,16 @@ def evaluate_individual(individual, loss_matrix, recursion=False):
 def fix_individual(individual):
     fixed_individual = []
     insert_A = False
-    c_present = len(individual) == 8
 
     for i in range(len(individual)):
-        if not c_present:
-            if individual[i] == "F":
-                fixed_individual += ["F", "B"]
-                continue
-            elif individual[i] == "B":
-                continue
-
-        else:
-            if individual[i] == "A" and individual[i - 1] == "F":
-                insert_A = True
-                continue
-
+        if individual[i] == "A" and individual[i - 1] == "F":
+            insert_A = True
+            continue
         fixed_individual.append(individual[i])
 
     if insert_A:
         fixed_individual.insert(random.choice([i for i in range(len(individual)) if individual[i] not in ['A', 'H']]),
                                 "A")
-
     return fixed_individual
 
 

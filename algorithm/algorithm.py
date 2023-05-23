@@ -2,6 +2,7 @@ import csv
 import random
 from copy import deepcopy
 import numpy as np
+from base.individual import check_validity, fix_individual
 
 
 def GA(create_population,
@@ -17,7 +18,8 @@ def GA(create_population,
        elitism,
        verbose,
        log,
-       path):
+       path,
+       grid_search=False):
     if log and path is None:
         raise Exception('If log is True then a valid path should be provided')
 
@@ -40,6 +42,11 @@ def GA(create_population,
 
             o1, o2 = mutator(o1, p_m), mutator(o2, p_m)
 
+            if not check_validity(o1):
+                o1 = fix_individual(o1)
+            if not check_validity(o2):
+                o2 = fix_individual(o2)
+
             off_pop.extend([o1, o2])
 
         if elitism:
@@ -58,4 +65,6 @@ def GA(create_population,
                 writer = csv.writer(file)
                 writer.writerow([it, min(fit_pop)])
 
+        if grid_search:
+            return min(fit_pop)
     return pop, fit_pop

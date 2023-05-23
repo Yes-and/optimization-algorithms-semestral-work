@@ -1,10 +1,10 @@
-from base.individual import *
 from base.population import *
 from operators.selectors import *
 from operators.mutators import *
 from operators.crossovers import *
 from algorithm.algorithm import GA
 from base.generate_problem import generate_problem
+
 
 loss_matrix = generate_problem()
 
