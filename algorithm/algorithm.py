@@ -18,8 +18,7 @@ def GA(create_population,
        elitism,
        verbose,
        log,
-       path,
-       grid_search=False):
+       path):
     if log and path is None:
         raise Exception('If log is True then a valid path should be provided')
 
@@ -65,6 +64,4 @@ def GA(create_population,
                 writer = csv.writer(file)
                 writer.writerow([it, min(fit_pop)])
 
-        if grid_search:
-            return min(fit_pop)
     return pop, fit_pop

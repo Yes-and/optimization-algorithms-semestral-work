@@ -12,7 +12,7 @@ param_grid = {
     "create_population": [create_population],
     "loss_matrix": [loss_matrix],
     "evaluate_population": [evaluate_population],
-    "gens": [10000],
+    "gens": [1000],
     "pop_size": [20],
     "selector": [roulette_selection, tournament_selection],
     "mutator": [swap_mutation, reverse_sequence_mutation, partial_shuffle_mutation, twors_mutation,
@@ -24,14 +24,15 @@ param_grid = {
     "verbose": [False],
     "log": [False],
     "path": ['log/test_log.csv'],
-    "grid_search": [True]
 }
 
 best_fit = float("+inf")
 for params in product(*param_grid.values()):
-    fit = GA(*params)
-    if fit < best_fit:
-        best_fit = fit
+    pop, fit_pop = GA(*params)
+    mean_fit = round((sum(fit_pop) / len(fit_pop)), 2)
+    print(mean_fit)
+    if mean_fit < best_fit:
+        best_fit = mean_fit
         best_params = params[5:11]
 
 print(best_params)
