@@ -1,5 +1,7 @@
 import numpy as np
 import random
+from itertools import permutations
+from individual import evaluate_individual
 
 encoder = {"A": 0,
            "B": 1,
@@ -44,3 +46,17 @@ def generate_problem(low=0, high=20, round_to=2):
 
     # Outputs numpy array
     return loss_matrix
+
+
+def solve_problem(loss_matrix):
+    rooms = ["A", "B", "C", "D", "E", "F", "G"]
+    all_paths = permutations(rooms)
+    best_fitness, best_path = float("+inf"), None
+    for path in list(all_paths):
+        path = list(path)
+        path.append("H")
+        fitness = evaluate_individual(path, loss_matrix)
+        if fitness < best_fitness:
+            best_fitness = fitness
+            best_path = path
+    return round(best_fitness, 2), best_path
