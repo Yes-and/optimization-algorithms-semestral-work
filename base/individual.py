@@ -14,13 +14,16 @@ values_map = {
 
 # create an individual
 def create_individual():
+    """
+        Individual's creation
+        :return: individual (list of strings)
+    """
     individual = []
 
-    # available rooms
     # H is not here, because has it is only the last, we will append it at the end
     rooms = ["A", "B", "C", "D", "E", "F", "G"]
 
-    # while exist rooms that were not visit, do:
+    # while exist rooms that were not visited:
     while rooms:
 
         # choose one room randomly to start
@@ -56,9 +59,19 @@ def evaluate_individual(individual, loss_matrix, recursion=False):
     return fitness
 
 
-# I think its better to rerun or skip mutation/crossover if the individual isnt valid, and maybe remove the restrictions in the creation of the individual
-
 def fix_individual(individual):
+    """
+        Fixes an individual that does not respect the condition where room "A" cannot be seen right after room "F".
+
+        If room "A" is seen after room "F" it is changed to another random index(except the same or the last).
+
+        Args:
+            individual (list): The individual to be fixed, represented as a list of room identifiers.
+
+        Returns:
+            list: The fixed individual that satisfies the condition.
+
+    """
     fixed_individual = []
     insert_A = False
 

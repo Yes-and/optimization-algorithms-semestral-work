@@ -4,6 +4,18 @@ import random
 # paper used: https://arxiv.org/ftp/arxiv/papers/1203/1203.3099.pdf
 
 def swap_mutation(individual, mutation_rate):
+    """Apply swap mutation to an individual in a genetic algorithm.
+
+        This mutation operator randomly swaps the positions of rooms in the individual
+        based on a given mutation rate.
+
+        Args:
+            individual (list): The individual to be mutated, represented as a list.
+            mutation_rate (float): The probability of a room being selected for mutation.
+
+        Returns:
+            list: The mutated individual with swapped room positions.
+    """
     mutated_individual = individual[:]
 
     for i in range(len(mutated_individual) - 1):
@@ -17,6 +29,19 @@ def swap_mutation(individual, mutation_rate):
 
 
 def reverse_sequence_mutation(individual, mutation_rate):
+    """
+        Applies reverse sequence mutation to an individual in a genetic algorithm.
+
+        This mutation reverses the sequence of rooms between two random indexes.
+
+        Args:
+            individual (list): The individual to be mutated.
+            mutation_rate (float): The probability of mutation for each individual.
+
+        Returns:
+            list: The mutated individual.
+    """
+
     mutated_individual = individual[:]
 
     if random.random() < mutation_rate:
@@ -29,6 +54,19 @@ def reverse_sequence_mutation(individual, mutation_rate):
 
 
 def partial_shuffle_mutation(individual, mutation_rate):
+    """
+        Applies partial shuffle mutation to an individual in a genetic algorithm.
+
+        This mutation shuffles the sequence of rooms between two random indexes.
+
+        Args:
+            individual (list): The individual to be mutated.
+            mutation_rate (float): The probability of mutation for each individual.
+
+        Returns:
+            list: The mutated individual.
+    """
+
     mutated_individual = individual[:]
 
     if random.random() < mutation_rate:

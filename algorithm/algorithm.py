@@ -41,6 +41,7 @@ def GA(create_population,
 
             o1, o2 = mutator(o1, p_m), mutator(o2, p_m)
 
+            # After the crossover and mutation if the individual isn't a valid solution(A seen after F) it is fixed(A assigned to another random index)
             if not check_validity(o1):
                 o1 = fix_individual(o1)
             if not check_validity(o2):

@@ -2,9 +2,10 @@ from base.population import *
 from operators.selectors import *
 from operators.mutators import *
 from operators.crossovers import *
-from algorithm import GA
+from algorithm.algorithm import GA
 from base.generate_problem import generate_problem, solve_problem
 from itertools import product
+
 
 loss_matrix = generate_problem()
 
@@ -26,11 +27,28 @@ param_grid = {
 }
 
 
+def display_results(params_list):
+    headers = ["Selectors", "Mutators", "Crossovers", "P. Cross.", "P. Mut.", "Elitism"]
+
+    # Count the occurrences of each value
+    for i in range(len(headers)):
+        value_count = {}
+        for item in params_list:
+            value = item[i]
+            if value in value_count:
+                value_count[value] += 1
+            else:
+                value_count[value] = 1
+        print("-" * 10, headers[i], "-" * 10)
+        for obj in sorted(value_count.items(), key=lambda x: x[1], reverse=True):
+            print(obj)
+
+
 if __name__ == '__main__':
     total_comb = sum(1 for _ in product(*param_grid.values()))
-    lst_params, lst_fit, lst_pop = [], [], []
+    lst_params, lst_fit, lst_pop, go_found = [], [], [], 0
 
-    for iteration in range(10):
+    for iteration in range(100):
         best_mean_fit, best_min_fit, best_params = float("+inf"), float('+inf'), None
         random.seed()
         param_grid["loss_matrix"] = [generate_problem()]
@@ -49,6 +67,10 @@ if __name__ == '__main__':
         print("Mean fitness: ", best_mean_fit)
         print("Min fitness: ", best_min_fit)
         print("Global optimum: ", global_optimum)
-        lst_params.append(best_params)
+        if best_min_fit == global_optimum:
+            go_found += 1
+        lst_params.append(list(best_params))
         lst_fit.append(best_mean_fit)
         lst_pop.append(best_pop)
+
+    display_results(lst_params)

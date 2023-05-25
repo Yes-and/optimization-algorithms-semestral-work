@@ -15,16 +15,17 @@ encoder = {"A": 0,
 
 # input data
 def generate_problem(low=0, high=20, round_to=2):
-    '''
+    """
 
-    description of what the function does
+    Creation of a matrix that generate random values, for the
+    loss of focus between each room
 
-    :param low: the lower number for loss of focus
-    :param high: the higher number for loss of focus
-    :param round_to: decimal cases to leave
+    :param low: the lower number for loss of focus (default=0)
+    :param high: the higher number for loss of focus (default=20)
+    :param round_to: decimal cases to leave (default=2)
     :return: matrix of the loss of focus for going from room to room
 
-    '''
+    """
 
     # Generates initial array
     loss_matrix = np.array(
@@ -38,17 +39,30 @@ def generate_problem(low=0, high=20, round_to=2):
 
     # Condition: from A to C -> loss(A,C) = max_loss*1.04 (at least)
     # we choose 20% as the maximum increase of loss for it does not reach too large values
-    loss_matrix[encoder['A']][encoder['C']] = round(random.uniform(max_loss * 1.04, max_loss * 1.2),
-                                                    round_to)  # ask professor about the high value
+    loss_matrix[encoder['A']][encoder['C']] = round(random.uniform(max_loss * 1.04, max_loss * 1.2), round_to)
 
     # set the lower triangle equals to the transpose of the upper triangle
     loss_matrix = np.triu(loss_matrix) + np.tril(loss_matrix.T, -1)
 
-    # Outputs numpy array
     return loss_matrix
 
 
 def solve_problem(loss_matrix):
+    """
+        Finds the global optimum using a brute force approach.
+
+        The function takes a loss matrix as input, It returns the best fitness value and the corresponding
+        path that leads to the global optimum.
+
+        Parameters:
+            loss_matrix (list[list[float]]): A matrix representing the attention loss of traversing
+                between different rooms.
+
+        Returns:
+            tuple(float, list[str]): A tuple containing the best fitness value and the corresponding
+                path leading to the global optimum.
+        """
+
     rooms = ["A", "B", "C", "D", "E", "F", "G"]
     all_paths = permutations(rooms)
     best_fitness, best_path = float("+inf"), None
