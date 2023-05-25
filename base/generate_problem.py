@@ -1,7 +1,7 @@
 import numpy as np
 import random
 from itertools import permutations
-from individual import evaluate_individual
+from base.individual import evaluate_individual
 
 encoder = {"A": 0,
            "B": 1,
