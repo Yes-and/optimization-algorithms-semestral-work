@@ -62,12 +62,15 @@ def cycle_crossover(p1, p2):
 def partially_mapped_crossover(p1, p2):
     # values between crossover points are preserved from the original parent
     # the rest of the values is mapped using a cycle
-    crossover_index = 3
-    how_many = 4
+    # (if the current value is already selected, we look what value
+    # its position points to in the second index. We cycle, until we
+    # find a value that is permissible).
+    crossover_point_1 = random.randint(0, len(p1) - 3)
+    crossover_point_2 = random.randint(crossover_point_1+1, len(p1) - 2)
 
-    # preserved values
-    s1 = [p1[i] for i in range(crossover_index, crossover_index+how_many)]
-    s2 = [p2[i] for i in range(crossover_index, crossover_index+how_many)]
+    # values between crossover points are kept from the same parent
+    s1 = [p1[i] for i in range(crossover_point_1, crossover_point_2+1)]
+    s2 = [p2[i] for i in range(crossover_point_1, crossover_point_2+1)]
 
     # remaining values
     u1 = [val for val in p2 if val not in s2]
@@ -78,7 +81,7 @@ def partially_mapped_crossover(p1, p2):
     sn = [s1, s2]
     pn = [p1, p2]
 
-    # cycle detection
+    # cycle looping
     for i in range(len(u1)):
         for j in range(2):
             curr = un[j][i]
@@ -91,8 +94,8 @@ def partially_mapped_crossover(p1, p2):
                     break
 
     # offspring is created
-    o1 = u1[:crossover_index] + s1 + u1[crossover_index:]
-    o2 = u2[:crossover_index] + s2 + u2[crossover_index:]
+    o1 = u1[:crossover_point_1] + s1 + u1[crossover_point_1:]
+    o2 = u2[:crossover_point_1] + s2 + u2[crossover_point_1:]
 
     return o1, o2
 
