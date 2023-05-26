@@ -123,10 +123,11 @@ def partially_mapped_crossover(p1, p2):
     return o1, o2
 
 
-def different_beginning_crossover(p1, p2):
+def different_end_crossover(p1, p2):
     """
-        The different beginning crossover only changes the starting part of the parent
-        because it can have a major impact on the route taken afterwards
+        The different_end_crossover kept the first positions ([:how_many]) from the parents
+        and fill the rest with values from the other parent, which haven't already been selected
+
         :param p1: one parent (list of strings)
         :param p2: other parent (list of strings)
         :return: two offsprings that results from p1 and p2 (lists of strings)
