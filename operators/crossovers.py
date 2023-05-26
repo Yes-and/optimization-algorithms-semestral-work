@@ -46,10 +46,8 @@ def cycle_crossover(p1, p2):
         :param p2: other parent (list of strings)
         :return: two offsprings that results from p1 and p1 (lists of strings)
     """
-    # find a cycle and fill in the rest
-    # for example, if first element of parent 1 is A,
-    # we keep looking, until we find A in the second parent
-    # we preserve elements that are part of the cycle
+
+    # initialize the cycle as a list of False boolean values
     cycle = [False] * len(p1)
 
     # initial variables for the cycle loop
@@ -65,11 +63,11 @@ def cycle_crossover(p1, p2):
         index = p1.index(curr)
         curr = p2[index]
 
-    # initializing empty offsrping
+    # initializing empty offspring
     o1, o2 = [], []
     for i in range(len(p1)):
         # values that are inside the cycle are preserved from the original parent
-        if cycle[i] == True:
+        if cycle[i]:
             o1.append(p1[i]), o2.append(p2[i])
         # values outside the cycle are imported from the other parent
         else:
@@ -94,11 +92,11 @@ def partially_mapped_crossover(p1, p2):
     # its position points to in the second index. We cycle, until we
     # find a value that is permissible).
     crossover_point_1 = random.randint(0, len(p1) - 3)
-    crossover_point_2 = random.randint(crossover_point_1+1, len(p1) - 2)
+    crossover_point_2 = random.randint(crossover_point_1 + 1, len(p1) - 2)
 
     # values between crossover points are kept from the same parent
-    s1 = [p1[i] for i in range(crossover_point_1, crossover_point_2+1)]
-    s2 = [p2[i] for i in range(crossover_point_1, crossover_point_2+1)]
+    s1 = [p1[i] for i in range(crossover_point_1, crossover_point_2 + 1)]
+    s2 = [p2[i] for i in range(crossover_point_1, crossover_point_2 + 1)]
 
     # remaining values
     u1 = [val for val in p2 if val not in s2]
@@ -129,8 +127,15 @@ def partially_mapped_crossover(p1, p2):
 
 
 def different_beginning_crossover(p1, p2):
-    # only changes the starting part
-    # because it can have a major impact on the route taken afterwards
+    """
+        The different beginning crossover only changes the starting part of the parent
+        because it can have a major impact on the route taken afterwards
+        :param p1: one parent (list of strings)
+        :param p2: other parent (list of strings)
+        :return: two offsprings that results from p1 and p2 (lists of strings)
+    """
+
+    # selecting the starting part
     how_many = random.randint(1, 4)
 
     # 1:n elements are preserved from the original parent
@@ -138,7 +143,7 @@ def different_beginning_crossover(p1, p2):
     s2 = p2[:how_many]
 
     # the rest is filled out with data from the other parent
-    # while preserving their respectiv eorder
+    # while preserving their respective order
     u1 = [val for val in p2 if val not in s1]
     u2 = [val for val in p1 if val not in s2]
 

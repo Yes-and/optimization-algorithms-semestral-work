@@ -4,17 +4,14 @@ import random
 # paper used: https://arxiv.org/ftp/arxiv/papers/1203/1203.3099.pdf
 
 def swap_mutation(individual, mutation_rate):
-    """Apply swap mutation to an individual in a genetic algorithm.
-
+    """
+        Apply swap mutation to an individual in a genetic algorithm.
         This mutation operator randomly swaps the positions of rooms in the individual
         based on a given mutation rate.
 
-        Args:
-            individual (list): The individual to be mutated, represented as a list.
-            mutation_rate (float): The probability of a room being selected for mutation.
-
-        Returns:
-            list: The mutated individual with swapped room positions.
+        :param individual: The individual to be mutated, represented as a list. (list)
+        :param mutation_rate: The probability of a room being selected for mutation. (float)
+        :return: The mutated individual with swapped room positions. (list)
     """
     mutated_individual = individual[:]
 
@@ -22,7 +19,7 @@ def swap_mutation(individual, mutation_rate):
         if random.random() < mutation_rate:
             j = random.randint(0, len(mutated_individual) - 2)
 
-            # Swap the positions of cities
+            # Swap the positions of rooms
             mutated_individual[i], mutated_individual[j] = mutated_individual[j], mutated_individual[i]
 
     return mutated_individual
@@ -31,15 +28,11 @@ def swap_mutation(individual, mutation_rate):
 def reverse_sequence_mutation(individual, mutation_rate):
     """
         Applies reverse sequence mutation to an individual in a genetic algorithm.
-
         This mutation reverses the sequence of rooms between two random indexes.
 
-        Args:
-            individual (list): The individual to be mutated.
-            mutation_rate (float): The probability of mutation for each individual.
-
-        Returns:
-            list: The mutated individual.
+        :param individual: The individual to be mutated. (list)
+        :param mutation_rate: The probability of mutation for each individual. (float)
+        :return: The mutated individual. (list)
     """
 
     mutated_individual = individual[:]
@@ -59,12 +52,9 @@ def partial_shuffle_mutation(individual, mutation_rate):
 
         This mutation shuffles the sequence of rooms between two random indexes.
 
-        Args:
-            individual (list): The individual to be mutated.
-            mutation_rate (float): The probability of mutation for each individual.
-
-        Returns:
-            list: The mutated individual.
+        :param individual: The individual to be mutated. (list)
+        :param mutation_rate: The probability of mutation for each individual. (float)
+        :return: The mutated individual. (list)
     """
 
     mutated_individual = individual[:]
@@ -81,35 +71,50 @@ def partial_shuffle_mutation(individual, mutation_rate):
 
 
 def twors_mutation(individual, mutation_rate):
+    """
+    The twors mutation allows the exchange of position of two genes randomly chosen
 
-    # allows the exchange of position of two genes randomly chosen
+    :param individual: The individual to be mutated. (list)
+    :param mutation_rate: The probability of mutation for each individual. (float)
+    :return: mutated individual (list): offspring
+    """
 
+    # individual's copy
     mutated_individual = individual[:]
 
     if random.random() < mutation_rate:
+
+        # random position
         i = random.randint(0, len(mutated_individual) - 2)
-
-        x = True
-        while x:
+        j = random.randint(0, len(mutated_individual) - 2)
+        # change the letters of i and j positions if they are not the same
+        while j == i:
             j = random.randint(0, len(mutated_individual) - 2)
-            if j != i: x = False
 
-            mutated_individual[i], mutated_individual[j] = mutated_individual[j], mutated_individual[i]
+        mutated_individual[i], mutated_individual[j] = mutated_individual[j], mutated_individual[i]
 
     return mutated_individual
 
 
 def centre_inverse_mutation(individual, mutation_rate):
+    """
+    The centre inverse mutation divides the individual into two sections.
+    All genes in each section are copied and then
+    inversely placed in the same section of a child.
 
-    # The chromosome is divided into two sections.
-    # All genes in each section are copied and then
-    # inversely placed in the same section of a child.
+    :param individual: The individual to be mutated. (list)
+    :param mutation_rate: The probability of mutation for each individual. (float)
+    :return: mutated individual (list): offspring
+    """
 
+    # individual's copy
     mutated_individual = individual[:]
 
     if random.random() < mutation_rate:
+        # division point
         i = random.randint(0, len(mutated_individual) - 2)
 
+        # invert the two parts of the individual
         mutated_individual[:i] = reversed(mutated_individual[:i])
         mutated_individual[i:-1] = reversed(mutated_individual[i:-1])
 
@@ -117,14 +122,27 @@ def centre_inverse_mutation(individual, mutation_rate):
 
 
 def throas_mutation(individual, mutation_rate):
+    """
+    The throas mutation allows us to construct a sequence of three genes:
+    the first is selected randomly and the two others are those two successors.
+    Then, the last becomes the first of the sequence, the second becomes last and
+    the first becomes the second in the sequence.
 
+    :param individual: The individual to be mutated. (list)
+    :param mutation_rate: The probability of mutation for each individual. (float)
+    :return: mutated individual (list): offspring
+    """
+
+    # individual's copy
     mutated_individual = individual[:]
 
     if random.random() < mutation_rate:
+        # selection of the three genes
         i = random.randint(0, len(mutated_individual) - 4)
         j = i + 1
         l = j + 1
 
+        # changes between the genes
         mutated_individual[i] = individual[l]
         mutated_individual[l] = individual[j]
         mutated_individual[j] = individual[i]
@@ -133,19 +151,29 @@ def throas_mutation(individual, mutation_rate):
 
 
 def modification_thrors_mutation(individual, mutation_rate):
-    mutated_individual = individual[:]
-    #print(mutated_individual)
+    '''
+    The thrors mutation is very similar to throas mutation, so we modify it a little.
+    The thors mutation also allows us to construct a sequence of three genes i,j, and l, and
+    i < j < l, but they do not need to be consecutive.
+    Then, we reverse the order that they will be placed:
+    The first becomes the last, the second becomes first and
+    the last becomes the second in the sequence.
 
-    # i < j < l, but they do not need to be consecutive
-    # we used the thrors mutation, but since it is very similar
-    # to throas mutation, we decide to reverse the order
+    :param individual: The individual to be mutated. (list)
+    :param mutation_rate: The probability of mutation for each individual. (float)
+    :return: mutated individual (list): offspring
+    '''
+
+    # individual's copy
+    mutated_individual = individual[:]
 
     if random.random() < mutation_rate:
+        # selection of the three genes
         i = random.randint(0, len(mutated_individual) - 4)
-        j = random.randint(i+1, len(mutated_individual) - 3)
-        l = random.randint(j+1, len(mutated_individual) - 2)
-        #print(i,j,l)
+        j = random.randint(i + 1, len(mutated_individual) - 3)
+        l = random.randint(j + 1, len(mutated_individual) - 2)
 
+        # changes between the genes
         mutated_individual[i] = individual[j]
         mutated_individual[j] = individual[l]
         mutated_individual[l] = individual[i]

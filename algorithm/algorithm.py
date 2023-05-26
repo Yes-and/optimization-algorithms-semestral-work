@@ -2,7 +2,7 @@ import csv
 import random
 from copy import deepcopy
 import numpy as np
-from base.individual import check_validity, fix_individual
+from base.individual import check_validity, fix_individual, evaluate_individual
 
 
 def GA(create_population,
@@ -65,4 +65,7 @@ def GA(create_population,
                 writer = csv.writer(file)
                 writer.writerow([it, min(fit_pop)])
 
+    for i in range(len(pop)):
+        if fit_pop[i] < evaluate_individual(pop[i], loss_matrix, recursion=True):
+            pop[i].remove("C")
     return pop, fit_pop
