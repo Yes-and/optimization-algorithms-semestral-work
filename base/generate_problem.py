@@ -49,7 +49,7 @@ def generate_problem(low=0, high=20, round_to=2):
 
 def solve_problem(loss_matrix):
     """
-        Finds the global optimum using a brute force approach.
+        Finds the global optimum using a brute force approach by checking the fitness of all possible solutions.
         The function takes a loss matrix as input, It returns the best fitness value and the corresponding
         path that leads to the global optimum.
 
