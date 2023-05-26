@@ -65,6 +65,7 @@ def GA(create_population,
                 writer = csv.writer(file)
                 writer.writerow([it, min(fit_pop)])
 
+    # Removes C if the fitness is better without it.
     for i in range(len(pop)):
         if fit_pop[i] < evaluate_individual(pop[i], loss_matrix, skip_condition=True):
             pop[i].remove("C")

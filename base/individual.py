@@ -46,6 +46,14 @@ def create_individual():
 
 
 def evaluate_individual(individual, loss_matrix, skip_condition=False):
+    """
+    Evaluates the fitness of a given individual.
+    If the individual has the room sequence ["F", "B"], it evaluates the fitness with and without room "C" and returns the lowest.
+    :param individual: individual to be evaluated.
+    :param loss_matrix: loss_matrix of the problem.
+    :param skip_condition: used when evaluating with and without room "C".
+    :return:
+    """
     indexes = [values_map[i] for i in individual]
     fitness = 0
     for i in range(len(indexes) - 1):
@@ -65,7 +73,7 @@ def fix_individual(individual):
         If room "A" is seen after room "F" it is changed to another random index(except the same or the last).
 
         :param individual: The individual to be fixed, represented as a list of room identifiers. (list)
-        :param list: The fixed individual that satisfies the condition.
+        :return list: The fixed individual that satisfies the condition.
 
     """
     fixed_individual = []
