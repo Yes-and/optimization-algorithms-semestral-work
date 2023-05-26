@@ -5,13 +5,13 @@ import random
 
 def swap_mutation(individual, mutation_rate):
     """
-        Apply swap mutation to an individual in a genetic algorithm.
-        This mutation operator randomly swaps the positions of rooms in the individual
-        based on a given mutation rate.
+    Apply swap mutation to an individual in a genetic algorithm.
+    This mutation operator randomly swaps the positions of rooms in the individual
+    based on a given mutation rate.
 
-        :param individual: The individual to be mutated, represented as a list. (list)
-        :param mutation_rate: The probability of a room being selected for mutation. (float)
-        :return: The mutated individual with swapped room positions. (list)
+    :param individual: The individual to be mutated, represented as a list. (list)
+    :param mutation_rate: The probability of a room being selected for mutation. (float)
+    :return: The mutated individual with swapped room positions. (list)
     """
     mutated_individual = individual[:]
 
@@ -27,12 +27,12 @@ def swap_mutation(individual, mutation_rate):
 
 def reverse_sequence_mutation(individual, mutation_rate):
     """
-        Applies reverse sequence mutation to an individual in a genetic algorithm.
-        This mutation reverses the sequence of rooms between two random indexes.
+    Applies reverse sequence mutation to an individual in a genetic algorithm.
+    This mutation reverses the sequence of rooms between two random indexes.
 
-        :param individual: The individual to be mutated. (list)
-        :param mutation_rate: The probability of mutation for each individual. (float)
-        :return: The mutated individual. (list)
+    :param individual: The individual to be mutated. (list)
+    :param mutation_rate: The probability of mutation for each individual. (float)
+    :return: The mutated individual. (list)
     """
 
     mutated_individual = individual[:]
@@ -48,13 +48,12 @@ def reverse_sequence_mutation(individual, mutation_rate):
 
 def partial_shuffle_mutation(individual, mutation_rate):
     """
-        Applies partial shuffle mutation to an individual in a genetic algorithm.
+    Applies partial shuffle mutation to an individual in a genetic algorithm.
+    This mutation shuffles the sequence of rooms between two random indexes.
 
-        This mutation shuffles the sequence of rooms between two random indexes.
-
-        :param individual: The individual to be mutated. (list)
-        :param mutation_rate: The probability of mutation for each individual. (float)
-        :return: The mutated individual. (list)
+    :param individual: The individual to be mutated. (list)
+    :param mutation_rate: The probability of mutation for each individual. (float)
+    :return: The mutated individual. (list)
     """
 
     mutated_individual = individual[:]
@@ -151,7 +150,7 @@ def throas_mutation(individual, mutation_rate):
 
 
 def modification_thrors_mutation(individual, mutation_rate):
-    '''
+    """
     The thrors mutation is very similar to throas mutation, so we modify it a little.
     The thors mutation also allows us to construct a sequence of three genes i,j, and l, and
     i < j < l, but they do not need to be consecutive.
@@ -162,7 +161,7 @@ def modification_thrors_mutation(individual, mutation_rate):
     :param individual: The individual to be mutated. (list)
     :param mutation_rate: The probability of mutation for each individual. (float)
     :return: mutated individual (list): offspring
-    '''
+    """
 
     # individual's copy
     mutated_individual = individual[:]

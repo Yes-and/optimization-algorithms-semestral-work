@@ -16,7 +16,6 @@ encoder = {"A": 0,
 # input data
 def generate_problem(low=0, high=20, round_to=2):
     """
-
     Creation of a matrix that generate random values, for the
     loss of focus between each room
 
@@ -49,12 +48,12 @@ def generate_problem(low=0, high=20, round_to=2):
 
 def solve_problem(loss_matrix):
     """
-        Finds the global optimum using a brute force approach by checking the fitness of all possible solutions.
-        The function takes a loss matrix as input, It returns the best fitness value and the corresponding
-        path that leads to the global optimum.
+    Finds the global optimum using a brute force approach by checking the fitness of all possible solutions.
+    The function takes a loss matrix as input, It returns the best fitness value and the corresponding
+    path that leads to the global optimum.
 
-        :param loss_matrix: A matrix representing the attention loss of traversing between different rooms.
-        :return: A tuple containing the best fitness value and the corresponding path leading to the global optimum. (float, list[str])
+    :param loss_matrix: A matrix representing the attention loss of traversing between different rooms.
+    :return: A tuple containing the best fitness value and the corresponding path leading to the global optimum. (float, list[str])
     """
 
     rooms = ["A", "B", "C", "D", "E", "F", "G"]

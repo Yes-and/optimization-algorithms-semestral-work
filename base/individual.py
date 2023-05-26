@@ -15,8 +15,8 @@ values_map = {
 # create an individual
 def create_individual():
     """
-        Individual's creation
-        :return: individual (list of strings)
+    Individual's creation
+    :return: individual (list of strings)
     """
     individual = []
 
@@ -69,12 +69,11 @@ def evaluate_individual(individual, loss_matrix, skip_condition=False):
 
 def fix_individual(individual):
     """
-        Fixes an individual that does not respect the condition where room "A" cannot be seen right after room "F".
-        If room "A" is seen after room "F" it is changed to another random index(except the same or the last).
+    Fixes an individual that does not respect the condition where room "A" cannot be seen right after room "F".
+    If room "A" is seen after room "F" it is changed to another random index(except the same or the last).
 
-        :param individual: The individual to be fixed, represented as a list of room identifiers. (list)
-        :return list: The fixed individual that satisfies the condition.
-
+    :param individual: The individual to be fixed, represented as a list of room identifiers. (list)
+    :return list: The fixed individual that satisfies the condition.
     """
     fixed_individual = []
     insert_A = False

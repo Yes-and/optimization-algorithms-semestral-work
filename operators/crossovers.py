@@ -3,14 +3,14 @@ import random
 
 def order_crossover(p1, p2):
     """
-            The order crossover starts with selecting a set of elements from one parent,
-            that goes from the crossover_point_1 from crossover_point_2, keep them,
-            and then fill the spaces with elements from another parent
-            while preserving their respective order
+    The order crossover starts with selecting a set of elements from one parent,
+    that goes from the crossover_point_1 from crossover_point_2, keep them,
+    and then fill the spaces with elements from another parent
+    while preserving their respective order
 
-            :param p1: one parent (list of strings)
-            :param p2: other parent (list of strings)
-            :return: two offsprings that results from p1 and p1 (lists of strings)
+    :param p1: one parent (list of strings)
+    :param p2: other parent (list of strings)
+    :return: two offsprings that results from p1 and p1 (lists of strings)
     """
 
     crossover_point_1 = random.randint(0, len(p1) - 3)
@@ -33,19 +33,19 @@ def order_crossover(p1, p2):
 
 def cycle_crossover(p1, p2):
     """
-        The cyclic_crossover finds a cycle between parents.
-        A cycle is a sequence of elements that can be traced by following the corresponding positions in the parent chromosomes.
-        This can be achieved by comparing the elements of the parents and identifying positions where they match.
+    The cyclic_crossover finds a cycle between parents.
+    A cycle is a sequence of elements that can be traced by following the corresponding positions in the parent chromosomes.
+    This can be achieved by comparing the elements of the parents and identifying positions where they match.
 
-        Start with the first element of p1, and the first element of p2.
-        Then search the position of that p2 element in p1, and check what is the element in that position in the p2.
-        Do this until reach an element that was already visited.
-        Identify the remaining elements from the two parents that do not belong to the current cycle,
-        preserving their order, and copy the ones from the parent 1 to the second offspring and vice-versa.
+    Start with the first element of p1, and the first element of p2.
+    Then search the position of that p2 element in p1, and check what is the element in that position in the p2.
+    Do this until reach an element that was already visited.
+    Identify the remaining elements from the two parents that do not belong to the current cycle,
+    preserving their order, and copy the ones from the parent 1 to the second offspring and vice-versa.
 
-        :param p1: one parent (list of strings)
-        :param p2: other parent (list of strings)
-        :return: two offsprings that results from p1 and p1 (lists of strings)
+    :param p1: one parent (list of strings)
+    :param p2: other parent (list of strings)
+    :return: two offsprings that results from p1 and p1 (lists of strings)
     """
 
     # initialize the cycle as a list of False boolean values
@@ -79,13 +79,13 @@ def cycle_crossover(p1, p2):
 
 def partially_mapped_crossover(p1, p2):
     """
-        The partially mapped crossover defines two different crossover points, and preserve
-        the values between them form the original parents.
-        The rest values are mapped using a cycle.
+    The partially mapped crossover defines two different crossover points, and preserve
+    the values between them form the original parents.
+    The rest values are mapped using a cycle.
 
-        :param p1: one parent (list of strings)
-        :param p2: other parent (list of strings)
-        :return: two offsprings that results from p1 and p2 (lists of strings)
+    :param p1: one parent (list of strings)
+    :param p2: other parent (list of strings)
+    :return: two offsprings that results from p1 and p2 (lists of strings)
     """
 
     crossover_point_1 = random.randint(0, len(p1) - 3)
@@ -125,12 +125,12 @@ def partially_mapped_crossover(p1, p2):
 
 def different_end_crossover(p1, p2):
     """
-        The different_end_crossover kept the first positions ([:how_many]) from the parents
-        and fill the rest with values from the other parent, which haven't already been selected
+    The different_end_crossover kept the first positions ([:how_many]) from the parents
+    and fill the rest with values from the other parent, which haven't already been selected
 
-        :param p1: one parent (list of strings)
-        :param p2: other parent (list of strings)
-        :return: two offsprings that results from p1 and p2 (lists of strings)
+    :param p1: one parent (list of strings)
+    :param p2: other parent (list of strings)
+    :return: two offsprings that results from p1 and p2 (lists of strings)
     """
 
     # selecting the starting part

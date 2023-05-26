@@ -5,15 +5,15 @@ from operators.crossovers import *
 from algorithm.algorithm import GA
 from base.generate_problem import generate_problem
 
-
+# Change the loss matrix here
 loss_matrix = generate_problem()
 
 if __name__ == '__main__':
     pop, fit_pop = GA(create_population=create_population,
                       loss_matrix=loss_matrix,
                       evaluate_population=evaluate_population,
-                      gens=10000,
-                      pop_size=10,
+                      gens=1000,
+                      pop_size=20,
                       selector=tournament_selection,
                       mutator=reverse_sequence_mutation,
                       crossover_operator=order_crossover,

@@ -15,7 +15,7 @@ param_grid = {
     "pop_size": [20],
     "selector": [roulette_selection, tournament_selection],
     "mutator": [swap_mutation, reverse_sequence_mutation, partial_shuffle_mutation, twors_mutation],
-    "crossover_operator": [order_crossover, cycle_crossover, partial_shuffle_mutation],
+    "crossover_operator": [order_crossover, cycle_crossover, partially_mapped_crossover],
     "p_c": [0.2, 0.4, 0.6, 0.8],
     "p_m": [0.1, 0.3, 0.5],
     "elitism": [False, True],
@@ -50,7 +50,7 @@ def display_results(params_list):
 # Grid Search algorithm
 if __name__ == '__main__':
     # Specify the number of grid searches to run. Each iteration means a new loss_matrix.
-    iterations = 10
+    iterations = 2
 
     # total_comb is the number of parameter combinations. It is used in a print function.
     total_comb = sum(1 for _ in product(*param_grid.values()))
@@ -60,7 +60,7 @@ if __name__ == '__main__':
     # Iterate over a number of specified iterations.
     for iteration in range(iterations):
         # Initialize variables
-        best_mean_fit, best_min_fit, best_params = float("+inf"), float('+inf'), None
+        best_mean_fit, best_min_fit, best_params, best_pop = float("+inf"), float('+inf'), None, None
         # Change random.seed() so that generate_problem() generates a different problem
         random.seed()
         param_grid["loss_matrix"] = [generate_problem()]
