@@ -4,16 +4,12 @@ import random
 def roulette_selection(population, fitnesses):
     """
         Selects an individual from the population using the roulette wheel selection method.
-
         It assigns probabilities to individuals based on their fitness scores, and then selects an
         individual randomly based on these probabilities.
 
-        Args:
-            population (list): A list of individuals in the population.
-            fitnesses (list): A list of fitness scores corresponding to each individual in the population.
-
-        Returns:
-            object: The selected individual from the population.
+        :param population: A list of individuals in the population. (list)
+        :param fitnesses: A list of fitness scores corresponding to each individual in the population. (list)
+        :return object: The selected individual from the population.
     """
     sum_of_fitnesses = sum(fitnesses)
 
@@ -23,17 +19,14 @@ def roulette_selection(population, fitnesses):
 
 
 def tournament_selection(population, fitnesses):
-    """Performs tournament selection to choose a parent individual from a population.
+    """
+        Performs tournament selection to choose a parent individual from a population.
+        Returns the individual with the lowest fitness from a randomly selected sample of 1/2 individuals of a population.
 
-    Returns the individual with the lowest fitness from a randomly selected sample of 1/2 individuals of a population.
-
-        Args:
-            population (list): A list of individuals in the population.
-            fitnesses (list): A list of fitness values corresponding to each individual.
-
-        Returns:
-            object: The selected individual chosen through tournament selection.
-        """
+        :param population: A list of individuals in the population. (list)
+        :param fitnesses: A list of fitness values corresponding to each individual. (list)
+        :return object: The selected individual chosen through tournament selection.
+    """
 
     # Part 1:
     p1_indexes = random.choices(range(len(population)), k=len(population)//2)

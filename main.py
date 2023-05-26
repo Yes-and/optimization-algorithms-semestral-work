@@ -14,15 +14,17 @@ if __name__ == '__main__':
                       evaluate_population=evaluate_population,
                       gens=10000,
                       pop_size=10,
-                      selector=roulette_selection,
+                      selector=tournament_selection,
                       mutator=reverse_sequence_mutation,
                       crossover_operator=order_crossover,
-                      p_c=0.8,
-                      p_m=0.2,
+                      p_c=0.4,
+                      p_m=0.1,
                       elitism=True,
                       verbose=True,
                       log=True,
                       path='log/test_log.csv'
                       )
 
-    print(pop, fit_pop)
+    min_fitness_index = min(range(len(fit_pop)), key=fit_pop.__getitem__)
+    print("Route: ", pop[min_fitness_index])
+    print("Fitness: ", fit_pop[min_fitness_index])

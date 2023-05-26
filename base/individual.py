@@ -45,16 +45,16 @@ def create_individual():
     return individual
 
 
-def evaluate_individual(individual, loss_matrix, recursion=False):
+def evaluate_individual(individual, loss_matrix, skip_condition=False):
     indexes = [values_map[i] for i in individual]
     fitness = 0
     for i in range(len(indexes) - 1):
         fitness += loss_matrix[indexes[i]][indexes[i + 1]]
-        if individual[i] == "F" and individual[i + 1] == "B" and not recursion:
-            fitness_with_c = evaluate_individual(individual, loss_matrix, recursion=True)
+        if individual[i] == "F" and individual[i + 1] == "B" and not skip_condition:
+            fitness_with_c = evaluate_individual(individual, loss_matrix, skip_condition=True)
             ind_without_C = individual[:]
             ind_without_C.remove("C")
-            fitness_without_c = evaluate_individual(ind_without_C, loss_matrix, recursion=True)
+            fitness_without_c = evaluate_individual(ind_without_C, loss_matrix, skip_condition=True)
             return min(fitness_with_c, fitness_without_c)
     return fitness
 
@@ -62,14 +62,10 @@ def evaluate_individual(individual, loss_matrix, recursion=False):
 def fix_individual(individual):
     """
         Fixes an individual that does not respect the condition where room "A" cannot be seen right after room "F".
-
         If room "A" is seen after room "F" it is changed to another random index(except the same or the last).
 
-        Args:
-            individual (list): The individual to be fixed, represented as a list of room identifiers.
-
-        Returns:
-            list: The fixed individual that satisfies the condition.
+        :param individual: The individual to be fixed, represented as a list of room identifiers. (list)
+        :param list: The fixed individual that satisfies the condition.
 
     """
     fixed_individual = []
@@ -88,6 +84,11 @@ def fix_individual(individual):
 
 
 def check_validity(individual):
+    """
+    Check the validity of a given individual.
+    :param individual:
+    :return: validity of the individual in boolean.
+    """
     for i in range(len(individual) - 1):
         if individual[i] == "F" and individual[i + 1] == "A":
             return False

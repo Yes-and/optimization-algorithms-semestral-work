@@ -66,6 +66,6 @@ def GA(create_population,
                 writer.writerow([it, min(fit_pop)])
 
     for i in range(len(pop)):
-        if fit_pop[i] < evaluate_individual(pop[i], loss_matrix, recursion=True):
+        if fit_pop[i] < evaluate_individual(pop[i], loss_matrix, skip_condition=True):
             pop[i].remove("C")
     return pop, fit_pop

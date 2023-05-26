@@ -12,9 +12,6 @@ def order_crossover(p1, p2):
             :param p2: other parent (list of strings)
             :return: two offsprings that results from p1 and p1 (lists of strings)
     """
-    # select a set of elements from one parent,
-    # keep them, and fill the spaces with elements from another parent
-    # while preserving their respective order
 
     crossover_point_1 = random.randint(0, len(p1) - 3)
     crossover_point_2 = random.randint(crossover_point_1 + 1, len(p1) - 2)
@@ -36,11 +33,15 @@ def order_crossover(p1, p2):
 
 def cycle_crossover(p1, p2):
     """
-        The cyclic_crossover find a cycle between parents and fills in the rest
-        preserving the order.
-        For example, if the first element of parent 1 is A,
-        we keep looking, until we find A in the second parent.
-        We preserve elements that are part of the cycle
+        The cyclic_crossover finds a cycle between parents.
+        A cycle is a sequence of elements that can be traced by following the corresponding positions in the parent chromosomes.
+        This can be achieved by comparing the elements of the parents and identifying positions where they match.
+
+        Start with the first element of p1, and the first element of p2.
+        Then search the position of that p2 element in p1, and check what is the element in that position in the p2.
+        Do this until reach an element that was already visited.
+        Identify the remaining elements from the two parents that do not belong to the current cycle,
+        preserving their order, and copy the ones from the parent 1 to the second offspring and vice-versa.
 
         :param p1: one parent (list of strings)
         :param p2: other parent (list of strings)
@@ -86,11 +87,7 @@ def partially_mapped_crossover(p1, p2):
         :param p2: other parent (list of strings)
         :return: two offsprings that results from p1 and p2 (lists of strings)
     """
-    # values between crossover points are preserved from the original parent
-    # the rest of the values is mapped using a cycle
-    # (if the current value is already selected, we look what value
-    # its position points to in the second index. We cycle, until we
-    # find a value that is permissible).
+
     crossover_point_1 = random.randint(0, len(p1) - 3)
     crossover_point_2 = random.randint(crossover_point_1 + 1, len(p1) - 2)
 
