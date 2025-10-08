@@ -1,4 +1,4 @@
-# Implementation of a genetic algorithm in python
+# Implementation of a genetic algorithm
 
 > This code was used for optimization class
 
