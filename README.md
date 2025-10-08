@@ -1,5 +1,7 @@
 # Implementation of a genetic algorithm in python
 
+> This code was used for optimization class
+
 This repository employes a Genetic Algorithm (GA) to solve Travelling Salesperson problem (TSP).
 
 Different types of selection, mutation and crossover can be imported from the _operators_ folder.
